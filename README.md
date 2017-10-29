@@ -22,6 +22,7 @@ gfortan diffusion.f90 cube_mem.f90
 ./a.out
 
 GO
+
 To compile and run diffusion.go:
 
 go run diffusion.go
