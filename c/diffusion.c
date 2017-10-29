@@ -9,6 +9,8 @@ double dmax(double x, double y){
         return x;
     else if (y > x)
         return y;
+    else 
+        return y;
 }
 
 double dmin(double x, double y){
@@ -16,11 +18,15 @@ double dmin(double x, double y){
         return x;
     else if (y < x)
         return y;
+    else
+        return y;
 }
 
-int main(int argc, char** argv){
+int main(int argc, char** argv){ 
     const int N = 10;
     int i, j, k;
+
+    // declare and allocate cube
     double ***cube = malloc(N*sizeof(double**));
     for(i = 0; i < N; i++){
         cube[i] = malloc(N*sizeof(double*));
@@ -35,43 +41,61 @@ int main(int argc, char** argv){
             }
         }
     }
-
+    
+    // declare and set vars
     double diff_coeff = 0.175;
     double dimension = 5;
     double gas_speed = 250.0;
     double step = (dimension / gas_speed) / N;
     double dist = dimension / N;
-
+    double change = 0.0;
     double dterm  = diff_coeff * step / (dist * dist);
-
-    cube[0][0][0] = 1.0e21;
-    i = 0; 
     double time = 0.0;
     double rat = 0.0;
-
+    
+    // set 0-0-0 location of cube to 1.0e21
+    cube[0][0][0] = 1.0e21; 
+    
+    // loop through cube until equilibrium reached
     do {
-        for(int i = 0; i < N; i++){
+       for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
                 for(int k = 0; k < N; k++){
-                    for(int l = 0; l < N; l++){
-                        for(int m = 0; m < N; m++){
-                            for(int n = 0; n < N; n++){
-                                if  (( ( i == l ) && ( j == m ) && ( k == n + 1 ) ) ||
-                                        ( ( i == l ) && ( j == m ) && ( k == n - 1 ) ) ||
-                                        ( ( i == l ) && ( j == m + 1 ) && ( k == n ) ) ||
-                                        ( ( i == l ) && ( j == m - 1 ) && ( k == n ) ) ||
-                                        ( ( i == l + 1 ) && ( j == m ) && ( k == n ) ) ||
-                                        ( ( i == l - 1 ) && ( j == m + 1 ) && ( k == n ) )){ 
-                                    double change = (cube[i][j][k] - cube[l][m][n]) * dterm;
-                                    cube[i][j][k] = cube[i][j][k] - change;
-                                    cube[l][m][n] = cube[l][m][n] + change; 
-                                }
-                            }
-                        }
-                    }  
+                   if(i - 1 > 1){
+                        change = (cube[i][j][k] - cube[i-1][j][k]) * dterm;
+                        cube[i][j][k] = cube[i][j][k] - change;
+                        cube[i-1][j][k] = cube[i-1][j][k] + change;
+                    }
+                    if(i + 1 < N){
+                        change = (cube[i][j][k] - cube[i+1][j][k]) * dterm;
+                        cube[i][j][k] = cube[i][j][k] - change;
+                        cube[i+1][j][k] = cube[i+1][j][k] + change;
+                    }
+                    if(j - 1 > 1){
+                        change = (cube[i][j][k] - cube[i][j-1][k]) * dterm;
+                        cube[i][j][k] = cube[i][j][k] - change;
+                        cube[i][j-1][k] = cube[i][j-1][k] + change;
+                    }
+                    if(j + 1 < N){
+                        change = (cube[i][j][k] - cube[i][j+1][k]) * dterm;
+                        cube[i][j][k] = cube[i][j][k] - change;
+                        cube[i][j+1][k] = cube[i][j+1][k] + change;
+                    }
+                    if(k - 1 > 1){
+                        change = (cube[i][j][k] - cube[i][j][k-1]) * dterm;
+                        cube[i][j][k] = cube[i][j][k] - change;
+                        cube[i][j][k-1] = cube[i][j][k-1] + change;
+                    }
+                    if(k + 1 < N){
+                        change = (cube[i][j][k] - cube[i][j][k+1]) * dterm;
+                        cube[i][j][k] = cube[i][j][k] - change;
+                        cube[i][j][k+1] = cube[i][j][k+1] + change;
+                    } 
                 }
+
             }
         }
+
         time = time+step;
         double sum = 0.0;
         double max = cube[0][0][0];
@@ -86,14 +110,18 @@ int main(int argc, char** argv){
             } 
         } 
         rat = min/max;
+        // print current values in each loop
         printf("time: %f ratio: %f val: %f\n", time, rat, cube[0][0][0]);
         printf("last val: %f\n", cube[N - 1][N - 1][N - 1]);
         printf("sum: %f\n", sum);
     } while(rat < 0.99);
+    // print final results
     printf("Box equilibrated in %f seconds of simulated time.\n", time);
 
 
 
     printf("The last array element is %f\n", cube[N-1][N-1][N-1]);
+    
+    // deallocate array
     free(cube);
 }

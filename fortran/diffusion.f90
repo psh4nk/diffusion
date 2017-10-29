@@ -1,12 +1,12 @@
 PROGRAM diffusion
 
     USE cube_mem
-    !real (kind = 4) :: cubesum
+    
+    ! declare and set variables
     integer :: N = 10
     integer :: mem_stat
     real*8 :: diff_coeff, dimension, gas_speed, step, dist 
     real*8 :: time, rat, change, dterm, sumv, maxv, minv, curr
-
 
     diff_coeff = 0.175
     dimension = 5.0
@@ -26,43 +26,44 @@ PROGRAM diffusion
 
     cube(1,1,1) = 1.0e21      
 
+    ! loop through cube until equilibrium is reached
     do while (rat < 0.99)
 
     do i = 1, mdim
         do j = 1, mdim
             do k = 1, mdim
             
-            if(i - 1 > 0) then
+            if(i - 1 > 1) then
                 change = (cube(i, j, k) - cube(i-1, j, k)) * dterm
                 cube(i, j, k) = cube(i, j, k) - change
                 cube(i-1,j,k) = cube(i-1,j,k) + change 
             end if
 
-            if(i + 1 <= N) then
+            if(i + 1 < N) then
                 change = (cube(i,j,k) - cube(i+1, j, k)) * dterm
                 cube(i, j, k) = cube(i,j,k) - change
                 cube(i+1,j,k) = cube(i+1,j,k) + change
             end if
 
-            if(j - 1 > 0) then
+            if(j - 1 > 1) then
                 change = (cube(i,j,k) - cube(i, j-1, k)) * dterm
                 cube(i, j, k) = cube(i,j,k) - change
                 cube(i, j-1, k) = cube(i,j-1,k) + change
             end if
 
-            if(j + 1 <= N) then 
+            if(j + 1 < N) then 
                 change = (cube(i,j,k) - cube(i, j+1, k)) * dterm
                 cube(i, j, k) = cube(i,j,k) - change
                 cube(i,j+1,k) = cube(i,j+1,k) + change
             end if
 
-            if(k - 1 > 0) then 
+            if(k - 1 > 1) then 
                 change = (cube(i,j,k) - cube(i, j, k-1)) * dterm
                 cube(i, j, k) = cube(i,j,k) - change
                 cube(i,j,k-1) = cube(i,j,k-1) + change
             end if
     
-            if(k + 1 <= N) then 
+            if(k + 1 < N) then 
                 change = (cube(i,j,k) - cube(i, j, k+1)) * dterm
                 cube(i,j,k) = cube(i,j,k) - change
                 cube(i,j,k+1) = cube(i,j,k+1) + change
@@ -89,13 +90,15 @@ PROGRAM diffusion
             end do 
         end do
         rat = minv / maxv
-
+        
+        ! print data for each loop
         print *, "time: ", time, " ratio: ", rat, " val: ", cube(1,1,1)
         print *, " last val: ", cube(N - 1, N - 1, N - 1)
         print *, " sum: ", sumv 
 
     end do 
     
+    ! print end data
     print *, "Box equilibrated in ", time, " seconds of simulated time."
 
     deallocate( cube, STAT = mem_stat )
