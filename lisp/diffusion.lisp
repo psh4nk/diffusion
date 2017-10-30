@@ -36,24 +36,18 @@
     )
   )
 )
-
-(let ((val 0 ))
   (loop do 
-        (incf val)
-        (dotimes(i 10)
+         (dotimes(i 10)
             (dotimes(j 10)
                 (dotimes(k 10)
-                    if(> (- i 1) 1 )
-                       ; (defvar tmp)
-                       ; (setq tmp (- i 1))
-                       ; (setq change (* ( - (aref cube i j k) (aref cube tmp j k) ) dterm))))))
-                        
-
+                    if(> ( - i 1 ) 1 )
+                        (setf change (* ( - (aref cube i j k) (aref cube ( -  i 1  ) j k) ) dterm)))))
+                         
 
 
                     
         
-        while(< rat 0.99))
+    while(< rat 0.99))
      
       
 

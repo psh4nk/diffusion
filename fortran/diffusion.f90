@@ -33,7 +33,7 @@ PROGRAM diffusion
         do j = 1, mdim
             do k = 1, mdim
             
-            if(i - 1 > 1) then
+            if(i > 1) then
                 change = (cube(i, j, k) - cube(i-1, j, k)) * dterm
                 cube(i, j, k) = cube(i, j, k) - change
                 cube(i-1,j,k) = cube(i-1,j,k) + change 
@@ -45,7 +45,7 @@ PROGRAM diffusion
                 cube(i+1,j,k) = cube(i+1,j,k) + change
             end if
 
-            if(j - 1 > 1) then
+            if(j > 1) then
                 change = (cube(i,j,k) - cube(i, j-1, k)) * dterm
                 cube(i, j, k) = cube(i,j,k) - change
                 cube(i, j-1, k) = cube(i,j-1,k) + change
@@ -57,7 +57,7 @@ PROGRAM diffusion
                 cube(i,j+1,k) = cube(i,j+1,k) + change
             end if
 
-            if(k - 1 > 1) then 
+            if(k > 1) then 
                 change = (cube(i,j,k) - cube(i, j, k-1)) * dterm
                 cube(i, j, k) = cube(i,j,k) - change
                 cube(i,j,k-1) = cube(i,j,k-1) + change

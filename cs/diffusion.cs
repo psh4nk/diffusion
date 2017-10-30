@@ -35,7 +35,7 @@ public class MemTest{
             for(int i = 0; i < N; i++){
                 for(int j = 0; j < N; j++){
                     for(int k = 0; k < N; k++){ 
-                        if(i - 1 > 1){
+                        if(i > 1){
                             change = (cube[i,j,k] - cube[i-1,j,k]) * dterm;
                             cube[i,j,k] = cube[i,j,k] - change;
                             cube[i-1,j,k] = cube[i-1,j,k] + change;
@@ -45,7 +45,7 @@ public class MemTest{
                             cube[i,j,k] = cube[i,j,k] - change;
                             cube[i+1,j,k] = cube[i+1,j,k] + change;
                         }
-                        if(j - 1 > 1){
+                        if(j > 1){
                             change = (cube[i,j,k] - cube[i,j-1,k]) * dterm;
                             cube[i,j,k] = cube[i,j,k] - change;
                             cube[i,j-1,k] = cube[i,j-1,k] + change;
@@ -55,7 +55,7 @@ public class MemTest{
                             cube[i,j,k] = cube[i,j,k] - change;
                             cube[i,j+1,k] = cube[i,j+1,k] + change;
                         }
-                        if(k - 1 > 1){
+                        if(k > 1){
                             change = (cube[i,j,k] - cube[i,j,k-1]) * dterm;
                             cube[i,j,k] = cube[i,j,k] - change;
                             cube[i,j,k-1] = cube[i,j,k-1] + change;
