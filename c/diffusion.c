@@ -4,6 +4,8 @@
 
 #define mval(MEM,i,j,k) MEM[i*N*N+j*N+k]
 
+// C code checked for mass conservation on 11/1/17
+
 double dmax(double x, double y){
     if(x > y)
         return x;
