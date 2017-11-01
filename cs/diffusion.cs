@@ -1,5 +1,7 @@
 using System;
 
+// C# Code checked for mass consistency on 11/1/17
+
 public class MemTest{
     static public void Main(){
         const int N = 10;
