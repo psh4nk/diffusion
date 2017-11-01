@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+# Python checked for mass conservation on 11/1/17
+
 # declare and set variables
 N=10
 diff_coeff = 0.175
