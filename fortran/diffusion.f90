@@ -1,5 +1,7 @@
 PROGRAM diffusion
 
+! fortran checked for mass conservatin on 11/1/17
+
     USE cube_mem
     
     ! declare and set variables
