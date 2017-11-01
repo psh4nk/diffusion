@@ -1,5 +1,7 @@
 package main
 
+// Go checked for mass conservation on 11/1/17
+
 import "fmt"
 import "math"
 
