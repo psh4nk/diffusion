@@ -1,6 +1,6 @@
 #!/usr/bin/sbcl --script
 
-;;; Define names to be used as variables
+;;; Define variables
 (defvar cube)
 (defvar diff_coeff)
 (defvar dimension)
@@ -12,11 +12,14 @@
 (defvar clock)
 (defvar rat)
 (defvar N)
+(defvar sum)
+(defvar maxv)
+(defvar minv)
 
-;;; Set up the variable to hold a 5x5 matrix
+; Set up the variable to hold a 10x10 matrix
 (setf cube(make-array'(10 10 10)))
 
-; set variable values
+; set variables
 (setq N 10)
 (setq diff_coeff 0.175)
 (setq dimension 5)
@@ -29,45 +32,83 @@
 (setq rat 0.0)
 
 ;;; Start the process of filling the matrix
-(dotimes(i 10)
-  (dotimes(j 10)
-    (dotimes(k 10)
-    (setf(aref cube i j k) (list i 'x j 'x k '= (* 0 0 0)))
+(dotimes(i N)
+  (dotimes(j N)
+    (dotimes(k N) 
+      (setf(aref cube i j k) 0 )
+      )
     )
   )
-)
-  (loop do 
-         (dotimes(i 10)
-            (dotimes(j 10)
-                (dotimes(k 10)
-                    if(> ( - i 1 ) 1 )
-                        (setf change (* ( - (aref cube i j k) (aref cube ( -  i 1  ) j k) ) dterm)))))
-                         
+
+(setf(aref cube 0 0 0) 1.0e21)
 
 
-                    
-        
-    while(< rat 0.99))
-     
-      
+; loop through cube until equilibrium reached
+(loop while (< rat 0.99)
+    do (dotimes(i N)
+        (dotimes(j N)
+          (dotimes(k N)
+            (cond ((> i 1) 
+              (setq change (* ( - (aref cube i j k) (aref cube (- i 1) j k) ) dterm))
+              (setf(aref cube i j k) (- (aref cube i j k) change))
+              (setf(aref cube (- i 1) j k) (+ (aref cube (- i 1) j k) change)) 
+              )
+            )
+            (cond ((< (+ i 1) N) 
+              (setq change (* ( - (aref cube i j k) (aref cube (+ i 1) j k) ) dterm))
+              (setf(aref cube i j k) (- (aref cube i j k) change))
+              (setf(aref cube (+ i 1) j k) (+ (aref cube (+ i 1) j k) change)) 
+              )
+            )
+            (cond ((> j 1) 
+              (setq change (* ( - (aref cube i j k) (aref cube i (- j 1) k) ) dterm))
+              (setf(aref cube i j k) (- (aref cube i j k) change))
+              (setf(aref cube i (- j 1) k) (+ (aref cube i (- j 1) k) change)) 
+              )
+            )
+            (cond ((< (+ j 1) N) 
+              (setq change (* ( - (aref cube i j k) (aref cube i (+ j 1) k) ) dterm))
+              (setf(aref cube i j k) (- (aref cube i j k) change))
+              (setf(aref cube i (+ j 1) k) (+ (aref cube i (+ j 1) k) change)) 
+              )
+            )
+            (cond ((> k 1) 
+              (setq change (* ( - (aref cube i j k) (aref cube i j (- k 1)) ) dterm))
+              (setf(aref cube i j k) (- (aref cube i j k) change))
+              (setf(aref cube i j (- k 1)) (+ (aref cube i j (- k 1)) change)) 
+              )
+            )
+            (cond ((< (+ k 1) N) 
+              (setq change (* ( - (aref cube i j k) (aref cube i j (+ k 1)) ) dterm))
+              (setf(aref cube i j k) (- (aref cube i j k) change))
+              (setf(aref cube i j (+ k 1)) (+ (aref cube i j (+ k 1)) change)) 
+              )
+           ) 
+          )
+        )
+    )
+    (setq clock (+ clock step_count))
+    (setq sum 0)
+    (setq maxv (aref cube 0 0 0))
+    (setq minv (aref cube 0 0 0))
+    (dotimes(i N)
+        (dotimes(j N)
+          (dotimes(k N)
+            (setq maxv (max (aref cube i j k) maxv))
+            (setq minv (min (aref cube i j k) minv))
+            (setq sum (+ sum (aref cube i j k)))
+          )
+        )
+    )
 
-
-
-
-
-
-
-
-
-
-
-
-;; Now print out the whole thing
-;(dotimes(i 5)
-;  (dotimes(j 5)
-;    (dotimes(k 5)
-;        (print(aref cube i j k ))
-;    )
-;  )
-;)
-;(write-line " ")
+    (setq rat (/ minv maxv))
+    
+    ;print data for each loop
+    (format t "time: ~S ratio: ~S value: ~S~% " clock rat (aref cube 0 0 0))
+    (format t "last val: ~S~%" (aref cube (- N 1) (- N 1) (- N 1)))
+    (format t "sum: ~S~%" sum)
+) 
+    ; print resulting data
+    (format t "Last element is: ~S~%" (aref cube (- N 1) (- N 1) (- N 1)))
+    (format t "Box equilibrated in ~S seconds of simulated time. ~%" clock)
+ 
