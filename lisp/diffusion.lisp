@@ -1,5 +1,7 @@
 #!/usr/bin/sbcl --script
 
+; Lisp checked for mass consistency on 11/8/17
+
 ;;; Define variables
 (defvar cube)
 (defvar diff_coeff)
