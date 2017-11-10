@@ -35,7 +35,7 @@ cube[0][0][0] = 1.0e21
 # create partition
 if usepartition == 1:
     for j in range((N/2) - 1, N):
-        for k in range((N/2) - 1, N):
+        for k in range(0, N):
             cube[(N/2) - 1][j][k] = -1.0
 
 # loop through cube until equilibrium reached
