@@ -1,3 +1,14 @@
+DIFFUSION
+
+
+Default dimensions = 10
+
+Partition is enabled by default
+
+
+To set dimensions and whether partition is used, change variables in code. They are clearly marked near the top of each diffusion program.
+
+
 C
 
 To compile and run diffusion.c:

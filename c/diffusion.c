@@ -29,7 +29,11 @@ double dmin(double x, double y){
 }
 
 int main(int argc, char** argv){ 
+    
+    /***DIMENSIONS***/
     const int N = 10;
+    /****************/
+    
     int i, j, k;
 
     // declare and allocate cube

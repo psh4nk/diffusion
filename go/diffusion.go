@@ -8,7 +8,11 @@ import "math"
 func main() {
 
     // declare and set variables
-    const N = 10
+    
+        /***DIMENSIONS***/
+        const N = 10
+        /****************/
+        
         var cube[N][N][N] float64 
         var diff_coeff float64 = 0.175
         var dimension float64 = 5

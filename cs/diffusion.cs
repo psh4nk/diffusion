@@ -4,7 +4,10 @@ using System;
 
 public class MemTest{
     static public void Main(){
+        
+        /***DIMENSIONS***/
         const int N = 10;
+        /****************/
 
         // declare and allocate cube
         double[,,] cube = new double[N,N,N];

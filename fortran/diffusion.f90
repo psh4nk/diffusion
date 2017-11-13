@@ -4,17 +4,19 @@ PROGRAM diffusion
 
     USE cube_mem
     
-    ! declare and set variables
-    !integer :: N = 10
+    ! declare and set variables 
     integer :: mem_stat, usepartition
     real*8 :: diff_coeff, dimension, gas_speed, step, dist 
     real*8 :: time, rat, change, dterm, sumv, maxv, minv, curr
     
-    ! set 1 to use partition, set 0 to not use partition
+    !!! set 1 to use partition, set 0 to not use partition
         usepartition = 1
-    !
+    !!!
 
+    !!! DIMENSIONS
     mdim = 10
+    !!!
+
     diff_coeff = 0.175
     dimension = 5.0
     gas_speed = 250.0

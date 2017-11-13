@@ -19,8 +19,10 @@
 (defvar minv)
 (defvar usepartition)
 
-
+;;;DIMENSIONS;;;
 (setq N 10)
+;;;;;;;;;;;;;;;;
+
 ; Set up the variable to hold a NxNxN matrix
 (setf cube(make-array`(,N ,N ,N)))
 

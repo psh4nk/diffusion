@@ -3,7 +3,11 @@
 # Python checked for mass conservation on 11/1/17
 
 # declare and set variables
+
+###DIMENSIONS###
 N=10
+################
+
 diff_coeff = 0.175
 dimension = 5.0
 gas_speed = 250.0
